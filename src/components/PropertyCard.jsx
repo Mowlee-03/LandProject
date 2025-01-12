@@ -4,15 +4,23 @@ import { Heart, Bath, BedDouble, Maximize } from 'lucide-react'
 import axios from 'axios';
 import { ADDFAVOURITE, REMOVEFAVOURITE } from '../Store/Api';
 import { UserContext } from '../Store/Provider/Userprovider';
+import { useDispatch } from 'react-redux';
+import { openAuthmodal } from '../Store/slices/authSlice';
 
 export default function PropertyCard({property, onRemoveFavorite }) {
 
 const {user}=useContext(UserContext)
-
+const dispatch=useDispatch()
 const handleFavoriteClick = async (e) => {
     e.preventDefault();
     e.stopPropagation();
 
+    if (!user) {
+      dispatch(openAuthmodal(true))
+      console.log(alert("please login to access"));
+      
+      return
+    }
     try {
       if (property.isFavorite||onRemoveFavorite) {
         // Call the remove favorite API with userId and property.id
@@ -28,6 +36,8 @@ const handleFavoriteClick = async (e) => {
       // Optional: Show user-friendly error message
     }
   };
+  console.log(property.id);
+  
 
   return (
     <motion.div

@@ -12,11 +12,11 @@ root.render(
   <React.StrictMode>
     <ThemeProvider>
       <BrowserRouter>
-        
+        <Provider store={store}>
           <UserProvider>
               <App />
           </UserProvider>
-        
+        </Provider>
       </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode>

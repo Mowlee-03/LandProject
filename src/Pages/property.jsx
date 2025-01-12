@@ -42,7 +42,7 @@ export default function Properties() {
         
         setProperties([
           {
-            id: 1,
+            id: 3,
             title: 'Modern Villa',
             location: 'Beverly Hills, CA',
             price: 2500000,
@@ -98,6 +98,12 @@ export default function Properties() {
     fetchUserFavorites()
   }, [user!=null])
 
+
+  const propertiesWithFavorites = properties.map(property => ({
+    ...property,
+    isFavorite: userFavorites.includes(property.id)
+  }))
+
   const [filters, setFilters] = useState({
     search: '',
     category: '',
@@ -121,7 +127,7 @@ export default function Properties() {
     })
   }
 
-  const filteredProperties = properties
+  const filteredProperties = (user ? propertiesWithFavorites : properties)
     .filter(property => {
       if (filters.search && !property.location.toLowerCase().includes(filters.search.toLowerCase())) {
         return false
@@ -341,7 +347,7 @@ export default function Properties() {
                 ) : (
                   <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     {filteredProperties.map(property => (
-                      <PropertyCard key={property.id} user={user} property={property} />
+                      <PropertyCard key={property.id} property={property} />
                     ))}
                   </div>
                 )}

@@ -5,14 +5,33 @@ import AuthModal from './auth/Authmodal'
 import { UserContext } from '../Store/Provider/Userprovider'
 import LogoutModal from './auth/LogoutModal'
 import { Link } from 'react-router-dom'
+import { useSelector ,useDispatch} from 'react-redux'
+import { openAuthmodal } from '../Store/slices/authSlice'
+
 export default function Navbar() {
   const { theme, setTheme } = useTheme()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [showAuthModal, setShowAuthModal] = useState(false)
   const [showLogoutModal, setShowLogoutModal] = useState(false)
   const dropdownRef = useRef(null)
+  const dispatch=useDispatch()
 
+  const anywhereopenAuthmodal=useSelector((data)=>{return data.auth.authmodal})
+  
+  
+  useEffect(() => {
+    if (anywhereopenAuthmodal) {
+      setShowAuthModal(true);
+    } else {
+      setShowAuthModal(false);
+    }
+  }, [anywhereopenAuthmodal]);
 
+  useEffect(() => {
+    if (!showAuthModal) {
+      dispatch(openAuthmodal(false));
+    }
+  }, [showAuthModal, dispatch]);
   const { user, logout } = useContext(UserContext)
 
 
