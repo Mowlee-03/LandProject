@@ -63,6 +63,9 @@ export default function Navbar() {
     setShowLogoutModal(false)
   }
 
+  function favorite(params) {
+    window.location.href = '/favourites';
+}
   return (
     <>
        <nav className="sticky top-0 z-50 w-full border-b border-border bg-background">
@@ -120,9 +123,10 @@ export default function Navbar() {
                       </div>
                       <div className="h-px bg-border" />
                       <button
+                      onClick={favorite}
                         className="flex w-full items-center gap-2 rounded-sm px-3 py-2 text-sm text-foreground hover:bg-muted"
                       >
-                        <Heart className="h-4 w-4" />
+                        <Heart  className="h-4 w-4" />
                         Favorites
                       </button>
                       <div className="h-px bg-border" />

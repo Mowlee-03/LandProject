@@ -1,14 +1,15 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Heart, Home } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Loader } from '../components/ui/Loader'
 import PropertyCard from '../components/PropertyCard'
 
+
 export default function Favorites() {
   const [favorites, setFavorites] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-
+  
   // Simulate fetching favorites
   useEffect(() => {
     const fetchFavorites = async () => {

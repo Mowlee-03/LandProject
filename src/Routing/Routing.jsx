@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import Home from '../Pages/Home'
 import Properties from '../Pages/property'
 import Favorites from '../Pages/Favourite'
+import ProtectedRoutes from './ProtectedRoutes'
 
 
 
@@ -12,8 +13,7 @@ const Routing = () => {
     <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/properties' element={<Properties/>} />
-        <Route path='/favourites' element={<Favorites/>} />
-
+        <Route path='/favorites' element={<ProtectedRoutes component={Favorites}/>} />
     </Routes>
     </>
   )

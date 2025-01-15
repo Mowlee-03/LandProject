@@ -181,7 +181,7 @@ export default function Properties() {
           <Search className="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground" />
         </div>
       </div>
--
+
       {/* Show Filters Button - Only visible on mobile */}
       <button
         onClick={() => setShowFilters(!showFilters)}
