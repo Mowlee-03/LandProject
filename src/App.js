@@ -12,8 +12,6 @@ function App() {
       <div className="bg-background text-foreground">
         <Layout/>
       </div>
-      <Blog/>
-      <Contact/>
     </div>
   );
 }

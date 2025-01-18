@@ -14,6 +14,7 @@ const Routing = () => {
         <Route path='/' element={<Home/>}/>
         <Route path='/properties' element={<Properties/>} />
         <Route path='/favorites' element={<ProtectedRoutes component={Favorites}/>} />
+        {/* <Route path='/favorites' element={<Favorites/>} /> */}
     </Routes>
     </>
   )

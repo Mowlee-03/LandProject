@@ -4,8 +4,8 @@ import PropertyCard from '../components/PropertyCard'
 import { UserContext } from '../Store/Provider/Userprovider'
 import { Loader } from '../components/ui/Loader'
 import axios from 'axios'
-import { GETFAVOURITE } from '../Store/Api'
-const categories = ['House', 'Apartment', 'Villa', 'Office', 'Land']
+import { ALLPOST, DISTRICT_0F_POST, GETFAVOURITE, POSTCATEGORY } from '../Store/Api'
+const categories = [{name:'House',name: 'Apartment', name:'Villa', name:'Office', name:'Land'}]
 const districts = ['Manhattan', 'Brooklyn', 'Queens', 'Beverly Hills', 'Hollywood', 'Miami Beach']
 const priceRanges = [
   { min: 0, max: 100000, label: 'Under $100,000' },
@@ -25,9 +25,40 @@ export default function Properties() {
   const [showFilters, setShowFilters] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [categories,setCategories]=useState([])
+  const [districts,setDistricts]=useState([])
+// console.log(categories);
 
+  useEffect(()=>{
+    const getCategories=async () => {
+      try {
+        let postCategory=await axios.get(POSTCATEGORY)
+        let dataofcategory=postCategory.data.data
+        const categoryNames = dataofcategory.map((data) => data.name)
+        setCategories(categoryNames);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getCategories()
+  },[])
 
-
+  useEffect(()=>{
+    const getDistricts=async () => {
+      try {
+        let postDistrict=await axios.get(DISTRICT_0F_POST)
+        console.log(postDistrict);
+        let dataofdistrict=postDistrict.data.data
+        let districtNames=dataofdistrict.map((data)=>data.name)
+        setDistricts(districtNames);
+        
+      } catch (error) {
+        console.log(error);
+        
+      }
+    }
+    getDistricts()
+  },[])
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -36,8 +67,11 @@ export default function Properties() {
         setError(null)
         
         // Replace with your actual API endpoint
-        
-      
+        const AllPropertyData=await axios.get(ALLPOST)
+        // if (AllPropertyData.statusText!=="OK") {
+        //   setError("Please Check Your Connection")
+        // }
+        // setProperties(AllPropertyData.data.data)
         
         
         setProperties([
@@ -95,8 +129,10 @@ export default function Properties() {
       }
     }
 
-    fetchUserFavorites()
-  }, [user!=null])
+    if (user) {
+      fetchUserFavorites()
+    }
+  }, [user])
 
 
   const propertiesWithFavorites = properties.map(property => ({

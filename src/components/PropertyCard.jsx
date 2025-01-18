@@ -36,7 +36,7 @@ const handleFavoriteClick = async (e) => {
       // Optional: Show user-friendly error message
     }
   };
-  console.log(property.id);
+  
   
 
   return (

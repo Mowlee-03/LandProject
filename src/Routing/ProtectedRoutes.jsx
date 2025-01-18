@@ -1,26 +1,37 @@
-import React, { useContext, useEffect } from 'react'
-import { UserContext } from '../Store/Provider/Userprovider'
-import {Routes,Route} from "react-router-dom"
-import { useDispatch } from 'react-redux'
-import { openAuthmodal } from '../Store/slices/authSlice'
+import React, { useContext, useEffect, useState } from 'react';
+import { UserContext } from '../Store/Provider/Userprovider';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { openAuthmodal } from '../Store/slices/authSlice';
 
 const ProtectedRoutes = ({ component: Component, ...rest }) => {
-
-    const {user}=useContext(UserContext)
-    const dispatch=useDispatch()
+    const navigate = useNavigate();
+    const { user } = useContext(UserContext);
+    const dispatch = useDispatch();
+    const [isUserChecked, setIsUserChecked] = useState(false);
 
     useEffect(() => {
-        if (!user) {
-        alert("Please Login To Access");
-            dispatch(openAuthmodal(true));
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            setIsUserChecked(true);
+        } else {
+            if (!user) {
+                alert("Sorry,You Need to Login For Access");
+                dispatch(openAuthmodal(true));
+                navigate('/');
+            }
         }
-    }, [user, dispatch]);
+    }, [user, dispatch, navigate]);
 
-  return (
-    <Routes>
-        <Route {...rest} element={<Component />} />
-    </Routes> 
-  )
+    if (!isUserChecked) {
+        return null; // Avoid rendering until user check is done
+    }
+
+    if (!user) {
+        return null;  // Don't render the component if user isn't logged in
+    }
+
+    return <Component {...rest} />;
 }
 
-export default ProtectedRoutes
+export default ProtectedRoutes;

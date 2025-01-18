@@ -4,7 +4,7 @@ import { useTheme } from './theme-provider'
 import AuthModal from './auth/Authmodal'
 import { UserContext } from '../Store/Provider/Userprovider'
 import LogoutModal from './auth/LogoutModal'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useSelector ,useDispatch} from 'react-redux'
 import { openAuthmodal } from '../Store/slices/authSlice'
 
@@ -15,7 +15,7 @@ export default function Navbar() {
   const [showLogoutModal, setShowLogoutModal] = useState(false)
   const dropdownRef = useRef(null)
   const dispatch=useDispatch()
-
+  const navigate=useNavigate()
   const anywhereopenAuthmodal=useSelector((data)=>{return data.auth.authmodal})
   
   
@@ -64,7 +64,7 @@ export default function Navbar() {
   }
 
   function favorite(params) {
-    window.location.href = '/favourites';
+    navigate("/favorites")
 }
   return (
     <>
