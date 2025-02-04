@@ -47,7 +47,6 @@ export default function Properties() {
     const getDistricts=async () => {
       try {
         let postDistrict=await axios.get(DISTRICT_0F_POST)
-        console.log(postDistrict);
         let dataofdistrict=postDistrict.data.data
         let districtNames=dataofdistrict.map((data)=>data.name)
         setDistricts(districtNames);
@@ -65,43 +64,10 @@ export default function Properties() {
       try {
         setIsLoading(true)
         setError(null)
+        const response=await axios.get(ALLPOST)
+       
+        setProperties(response.data.data)
         
-        // Replace with your actual API endpoint
-        const AllPropertyData=await axios.get(ALLPOST)
-        // if (AllPropertyData.statusText!=="OK") {
-        //   setError("Please Check Your Connection")
-        // }
-        // setProperties(AllPropertyData.data.data)
-        
-        
-        setProperties([
-          {
-            id: 3,
-            title: 'Modern Villa',
-            location: 'Beverly Hills, CA',
-            price: 2500000,
-            image: '/placeholder.svg?height=400&width=600',
-            beds: 4,
-            baths: 3,
-            sqft: 3200,
-            category: 'Villa',
-            district: 'Beverly Hills',
-            createdAt: '2024-01-05'
-          },
-          {
-            id: 2,
-            title: 'Luxury Apartment',
-            location: 'Manhattan, NY',
-            price: 1800000,
-            image: '/placeholder.svg?height=400&width=600',
-            beds: 3,
-            baths: 2,
-            sqft: 2100,
-            category: 'Apartment',
-            district: 'Manhattan',
-            createdAt: '2024-01-03'
-          },
-        ])
       } catch (err) { 
         console.error('Error fetching properties:', err)
         setError('Failed to load properties. Please try again later.')
@@ -120,6 +86,7 @@ export default function Properties() {
         setIsLoading(true)
         
         const userfavdata=await axios.get(GETFAVOURITE(user.id))
+        console.log(userfavdata);
         
         setUserFavorites(userfavdata.map(fav => fav.postId))
       } catch (err) {
@@ -168,10 +135,10 @@ export default function Properties() {
       if (filters.search && !property.location.toLowerCase().includes(filters.search.toLowerCase())) {
         return false
       }
-      if (filters.category && property.category !== filters.category) {
+      if (filters.category && property.category_name !== filters.category) {
         return false
       }
-      if (filters.district && property.district !== filters.district) {
+      if (filters.district && property.district_name !== filters.district) {
         return false
       }
       if (filters.priceRange) {

@@ -2,7 +2,7 @@ import axios from "axios"
 
 
 
-const BASE_URL=process.env.REACT_APP_API_URL
+const BASE_URL=process.env.REACT_APP_API_KEY
 
 axios.defaults.baseURL=BASE_URL
 axios.defaults.withCredentials=true

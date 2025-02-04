@@ -50,7 +50,7 @@ const handleFavoriteClick = async (e) => {
     >
       <div className="aspect-video overflow-hidden">
         <img
-          src={property.image}
+          src={property.image[0]}
           alt={property.title}
           className="h-full w-full object-cover transition-transform group-hover:scale-110"
         />
@@ -78,15 +78,15 @@ const handleFavoriteClick = async (e) => {
         <div className="mb-4 flex items-center gap-4 text-sm text-muted-foreground">
           <div className="flex items-center gap-1">
             <BedDouble className="h-4 w-4" />
-            <span>{property.beds} beds</span>
+            <span>{property.bedroom} beds</span>
           </div>
           <div className="flex items-center gap-1">
             <Bath className="h-4 w-4" />
-            <span>{property.baths} baths</span>
+            <span>{property.bathroom} baths</span>
           </div>
           <div className="flex items-center gap-1">
             <Maximize className="h-4 w-4" />
-            <span>{property.sqft} sqft</span>
+            <span>{property.area} sqft</span>
           </div>
         </div>
         <div className="flex items-center justify-between">
