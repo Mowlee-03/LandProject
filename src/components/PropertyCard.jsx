@@ -1,4 +1,5 @@
-import { useState, useContext } from 'react'
+// Modified PropertyCard.jsx
+import { useState, useContext, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Heart, Bath, BedDouble, Maximize } from 'lucide-react'
 import axios from 'axios';
@@ -7,38 +8,48 @@ import { UserContext } from '../Store/Provider/Userprovider';
 import { useDispatch } from 'react-redux';
 import { openAuthmodal } from '../Store/slices/authSlice';
 
-export default function PropertyCard({property, onRemoveFavorite }) {
+export default function PropertyCard({ property, onRemoveFavorite, isInFavoritesPage }) {
+  const { user } = useContext(UserContext)
+  const dispatch = useDispatch()
+  // Local state to track favorite status
+  const [isFavorite, setIsFavorite] = useState(property.isFavorite || false);
 
-const {user}=useContext(UserContext)
-const dispatch=useDispatch()
-const handleFavoriteClick = async (e) => {
+  // Initialize local state from property
+  useEffect(() => {
+    setIsFavorite(property.isFavorite || false);
+  }, [property.isFavorite]);
+
+  const handleFavoriteClick = async (e) => {
     e.preventDefault();
     e.stopPropagation();
 
     if (!user) {
       dispatch(openAuthmodal(true))
-      console.log(alert("please login to access"));
-      
       return
     }
+
     try {
-      if (property.isFavorite||onRemoveFavorite) {
+      if (isFavorite || onRemoveFavorite) {
         // Call the remove favorite API with userId and property.id
-        await axios.delete(REMOVEFAVOURITE,{data:{userId:user.id,postId:property.id}})
-        
+        await axios.delete(REMOVEFAVOURITE, { data: { userId: user.id, postId: property.id } })
+        // Update local state
+        setIsFavorite(false);
+        // If this is in the favorites page, call the onRemoveFavorite callback
+        if (onRemoveFavorite) {
+          onRemoveFavorite(property.id);
+        }
       } else {
         // Call the add favorite API with userId and property.id
-        await axios.post(ADDFAVOURITE,{userId:user.id,postId:property.id})
-        
+        await axios.post(ADDFAVOURITE, { userId: user.id, postId: property.id })
+        // Update local state
+        setIsFavorite(true);
       }
     } catch (error) {
       console.error('Failed to toggle favorite:', error);
       // Optional: Show user-friendly error message
     }
   };
-  
-  
-
+ 
   return (
     <motion.div
       layout
@@ -58,16 +69,21 @@ const handleFavoriteClick = async (e) => {
       <div className="absolute right-4 top-4 rounded-full bg-primary px-3 py-1 text-sm font-semibold text-primary-foreground">
         {property.type}
       </div>
-      <button
-        onClick={handleFavoriteClick}
-        className="absolute right-4 top-16 rounded-full bg-background/80 p-2 backdrop-blur-sm transition-colors hover:bg-background"
-      >
-        <Heart 
-          className={`h-5 w-5 transition-colors ${
-            property.isFavorite ? 'fill-red-500 stroke-red-500' : 'stroke-foreground'
-          }`} 
-        />
-      </button>
+      
+      {/* Only show heart button if not in favorites page */}
+      {!isInFavoritesPage && (
+        <button
+          onClick={handleFavoriteClick}
+          className="absolute right-4 top-16 rounded-full bg-background/80 p-2 backdrop-blur-sm transition-colors hover:bg-background"
+        >
+          <Heart
+            className={`h-5 w-5 transition-colors ${
+              isFavorite ? 'fill-red-500 stroke-red-500' : 'stroke-foreground'
+            }`}
+          />
+        </button>
+      )}
+      
       <div className="p-4">
         <h3 className="mb-1 text-lg font-semibold text-card-foreground">
           {property.title}
@@ -93,12 +109,24 @@ const handleFavoriteClick = async (e) => {
           <span className="text-lg font-bold text-card-foreground">
             ${property.price.toLocaleString()}
           </span>
-          <button className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90">
-            View Details
-          </button>
+          {isInFavoritesPage ? (
+            <button 
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onRemoveFavorite(property.id);
+              }}
+              className="rounded-md bg-destructive px-4 py-2 text-sm font-medium text-destructive-foreground hover:bg-destructive/90"
+            >
+              Remove
+            </button>
+          ) : (
+            <button className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90">
+              View Details
+            </button>
+          )}
         </div>
       </div>
     </motion.div>
   )
 }
-

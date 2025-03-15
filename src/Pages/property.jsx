@@ -1,12 +1,11 @@
-import { useContext, useState,useEffect } from 'react'
-import { Search, SlidersHorizontal, X ,Heart} from 'lucide-react'
+import { useContext, useState, useEffect, useCallback } from 'react'
+import { Search, SlidersHorizontal, X, Heart } from 'lucide-react'
 import PropertyCard from '../components/PropertyCard'
 import { UserContext } from '../Store/Provider/Userprovider'
 import { Loader } from '../components/ui/Loader'
 import axios from 'axios'
 import { ALLPOST, DISTRICT_0F_POST, GETFAVOURITE, POSTCATEGORY } from '../Store/Api'
-const categories = [{name:'House',name: 'Apartment', name:'Villa', name:'Office', name:'Land'}]
-const districts = ['Manhattan', 'Brooklyn', 'Queens', 'Beverly Hills', 'Hollywood', 'Miami Beach']
+
 const priceRanges = [
   { min: 0, max: 100000, label: 'Under $100,000' },
   { min: 100000, max: 300000, label: '$100,000 - $300,000' },
@@ -15,25 +14,22 @@ const priceRanges = [
   { min: 1000000, max: null, label: 'Over $1,000,000' }
 ]
 
-
 export default function Properties() {
-
   const [properties, setProperties] = useState([])
   const [userFavorites, setUserFavorites] = useState([])
-  const {user}=useContext(UserContext)
+  const { user } = useContext(UserContext)
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false)
   const [showFilters, setShowFilters] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [categories,setCategories]=useState([])
-  const [districts,setDistricts]=useState([])
-// console.log(categories);
+  const [categories, setCategories] = useState([])
+  const [districts, setDistricts] = useState([])
 
-  useEffect(()=>{
-    const getCategories=async () => {
+  useEffect(() => {
+    const getCategories = async () => {
       try {
-        let postCategory=await axios.get(POSTCATEGORY)
-        let dataofcategory=postCategory.data.data
+        let postCategory = await axios.get(POSTCATEGORY)
+        let dataofcategory = postCategory.data.data
         const categoryNames = dataofcategory.map((data) => data.name)
         setCategories(categoryNames);
       } catch (error) {
@@ -41,34 +37,30 @@ export default function Properties() {
       }
     }
     getCategories()
-  },[])
+  }, [])
 
-  useEffect(()=>{
-    const getDistricts=async () => {
+  useEffect(() => {
+    const getDistricts = async () => {
       try {
-        let postDistrict=await axios.get(DISTRICT_0F_POST)
-        let dataofdistrict=postDistrict.data.data
-        let districtNames=dataofdistrict.map((data)=>data.name)
+        let postDistrict = await axios.get(DISTRICT_0F_POST)
+        let dataofdistrict = postDistrict.data.data
+        let districtNames = dataofdistrict.map((data) => data.name)
         setDistricts(districtNames);
-        
       } catch (error) {
         console.log(error);
-        
       }
     }
     getDistricts()
-  },[])
+  }, [])
 
   useEffect(() => {
     const fetchProperties = async () => {
       try {
         setIsLoading(true)
         setError(null)
-        const response=await axios.get(ALLPOST)
-       
+        const response = await axios.get(ALLPOST)
         setProperties(response.data.data)
-        
-      } catch (err) { 
+      } catch (err) {
         console.error('Error fetching properties:', err)
         setError('Failed to load properties. Please try again later.')
       } finally {
@@ -79,29 +71,34 @@ export default function Properties() {
     fetchProperties()
   }, [])
 
+  // Extract to a separate function so we can call it when needed
+  const fetchUserFavorites = useCallback(async () => {
+    if (!user) return;
+    
+    try {
+      const userfavdata = await axios.get(GETFAVOURITE(user.id))
+      // Extract just the postIds into an array
+      setUserFavorites(userfavdata.data.map(fav => fav.postId))
+    } catch (err) {
+      console.error('Error fetching favorites:', err)
+    }
+  }, [user]);
 
   useEffect(() => {
-    const fetchUserFavorites = async () => {
-      try {
-        setIsLoading(true)
-        
-        const userfavdata=await axios.get(GETFAVOURITE(user.id))
-        console.log(userfavdata);
-        
-        setUserFavorites(userfavdata.map(fav => fav.postId))
-      } catch (err) {
-        console.error('Error fetching favorites:', err)
-      } finally {
-        setIsLoading(false)
-      }
+    if (user) {
+      setIsLoading(true)
+      fetchUserFavorites().finally(() => setIsLoading(false))
     }
+  }, [user, fetchUserFavorites])
 
+  // Function to handle favorite updates - can be passed down to PropertyCard
+  const handleFavoriteUpdate = () => {
     if (user) {
       fetchUserFavorites()
     }
-  }, [user])
+  }
 
-
+  // Map favorites to properties
   const propertiesWithFavorites = properties.map(property => ({
     ...property,
     isFavorite: userFavorites.includes(property.id)
@@ -114,7 +111,6 @@ export default function Properties() {
     priceRange: '',
     sortBy: 'newest'
   })
-
 
   const handleFilterChange = (key, value) => {
     setFilters(prev => ({ ...prev, [key]: value }))
@@ -265,7 +261,6 @@ export default function Properties() {
 
   return (
     <div className="min-h-screen bg-background">
-
       <main className="container py-8">
         <div className="mb-8 space-y-4">
           <h1 className="text-3xl font-bold text-foreground">Properties</h1>
@@ -329,37 +324,38 @@ export default function Properties() {
 
           {/* Property Grid */}
           <div className="flex-1 h-screen overflow-auto overflow-x-hidden">
-          {isLoading ? (
-                  <div className="flex min-h-[400px] items-center justify-center">
-                    <Loader size="large" />
-                  </div>
-                ) : error ? (
-                  <div className="flex min-h-[400px] flex-col items-center justify-center text-center">
-                    <p className="text-lg text-destructive">{error}</p>
-                    <button
-                      onClick={() => window.location.reload()}
-                      className="mt-4 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-                    >
-                      Try Again
-                    </button>
-                  </div>
-                ) : filteredProperties.length === 0 ? (
-                  <div className="mt-8 text-center text-muted-foreground">
-                    No properties found matching your criteria.
-                  </div>
-                ) : (
-                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    {filteredProperties.map(property => (
-                      <PropertyCard key={property.id} property={property} />
-                    ))}
-                  </div>
-                )}
+            {isLoading ? (
+              <div className="flex min-h-[400px] items-center justify-center">
+                <Loader size="large" />
+              </div>
+            ) : error ? (
+              <div className="flex min-h-[400px] flex-col items-center justify-center text-center">
+                <p className="text-lg text-destructive">{error}</p>
+                <button
+                  onClick={() => window.location.reload()}
+                  className="mt-4 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+                >
+                  Try Again
+                </button>
+              </div>
+            ) : filteredProperties.length === 0 ? (
+              <div className="mt-8 text-center text-muted-foreground">
+                No properties found matching your criteria.
+              </div>
+            ) : (
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {filteredProperties.map(property => (
+                  <PropertyCard 
+                    key={property.id} 
+                    property={property} 
+                    onFavoriteUpdate={handleFavoriteUpdate}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </main>
-
-    
     </div>
   )
 }
-

@@ -16,7 +16,6 @@ const ProtectedRoutes = ({ component: Component, ...rest }) => {
             setIsUserChecked(true);
         } else {
             if (!user) {
-                alert("Sorry,You Need to Login For Access");
                 dispatch(openAuthmodal(true));
                 navigate('/');
             }
