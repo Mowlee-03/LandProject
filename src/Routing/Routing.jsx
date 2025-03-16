@@ -4,6 +4,7 @@ import Home from '../Pages/Home'
 import Properties from '../Pages/property'
 import Favorites from '../Pages/Favourite'
 import ProtectedRoutes from './ProtectedRoutes'
+import PropertyDetail from '../Pages/ViewoneProperty'
 
 
 
@@ -14,7 +15,8 @@ const Routing = () => {
         <Route path='/' element={<Home/>}/>
         <Route path='/properties' element={<Properties/>} />
         <Route path='/favorites' element={<ProtectedRoutes component={Favorites}/>} />
-        {/* <Route path='/favorites' element={<Favorites/>} /> */}
+        <Route path='/property/:postId' element={<ProtectedRoutes component={PropertyDetail}/>} />
+        
     </Routes>
     </>
   )

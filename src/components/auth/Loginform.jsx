@@ -41,7 +41,7 @@ export default function LoginForm({onClose, onToggleView }) {
       }
       
     } catch (error) {
-      setApiMessage({type:"error",message:error.response})
+      setApiMessage({type:"error",message:error.response.data.message})
     }
   }
   if (isSuccess) {

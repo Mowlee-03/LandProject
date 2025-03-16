@@ -3,6 +3,7 @@ import { UserContext } from '../Store/Provider/Userprovider';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { openAuthmodal } from '../Store/slices/authSlice';
+import { showSnackbar } from '../Store/slices/snackBarslice';
 
 const ProtectedRoutes = ({ component: Component, ...rest }) => {
     const navigate = useNavigate();
@@ -16,6 +17,7 @@ const ProtectedRoutes = ({ component: Component, ...rest }) => {
             setIsUserChecked(true);
         } else {
             if (!user) {
+                dispatch(showSnackbar({severity:"warning",message:"Login is required to access"}))
                 dispatch(openAuthmodal(true));
                 navigate('/');
             }

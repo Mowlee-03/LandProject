@@ -7,13 +7,14 @@ import { ADDFAVOURITE, REMOVEFAVOURITE } from '../Store/Api';
 import { UserContext } from '../Store/Provider/Userprovider';
 import { useDispatch } from 'react-redux';
 import { openAuthmodal } from '../Store/slices/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 export default function PropertyCard({ property, onRemoveFavorite, isInFavoritesPage }) {
   const { user } = useContext(UserContext)
   const dispatch = useDispatch()
   // Local state to track favorite status
   const [isFavorite, setIsFavorite] = useState(property.isFavorite || false);
-
+  const navigate=useNavigate()
   // Initialize local state from property
   useEffect(() => {
     setIsFavorite(property.isFavorite || false);
@@ -66,7 +67,7 @@ export default function PropertyCard({ property, onRemoveFavorite, isInFavorites
           className="h-full w-full object-cover transition-transform group-hover:scale-110"
         />
       </div>
-      <div className="absolute right-4 top-4 rounded-full bg-primary px-3 py-1 text-sm font-semibold text-primary-foreground">
+      <div className="absolute right-4 top-4 rounded-full bg-primary px-3 py-1 text-sm font-semibold text-primary-foreground capitalize">
         {property.type}
       </div>
       
@@ -88,7 +89,7 @@ export default function PropertyCard({ property, onRemoveFavorite, isInFavorites
         <h3 className="mb-1 text-lg font-semibold text-card-foreground">
           {property.title}
         </h3>
-        <p className="mb-2 text-sm text-muted-foreground">
+        <p className="mb-2 text-sm text-muted-foreground capitalize">
           {property.location}
         </p>
         <div className="mb-4 flex items-center gap-4 text-sm text-muted-foreground">
@@ -107,7 +108,7 @@ export default function PropertyCard({ property, onRemoveFavorite, isInFavorites
         </div>
         <div className="flex items-center justify-between">
           <span className="text-lg font-bold text-card-foreground">
-            ${property.price.toLocaleString()}
+            ₹{property.price.toLocaleString()}
           </span>
           {isInFavoritesPage ? (
             <button 
@@ -121,7 +122,9 @@ export default function PropertyCard({ property, onRemoveFavorite, isInFavorites
               Remove
             </button>
           ) : (
-            <button className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90">
+            <button 
+            onClick={() => navigate(`/property/${property.id}`)}
+            className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90">
               View Details
             </button>
           )}

@@ -7,11 +7,12 @@ import axios from 'axios'
 import { ALLPOST, DISTRICT_0F_POST, GETFAVOURITE, POSTCATEGORY } from '../Store/Api'
 
 const priceRanges = [
-  { min: 0, max: 100000, label: 'Under $100,000' },
-  { min: 100000, max: 300000, label: '$100,000 - $300,000' },
-  { min: 300000, max: 500000, label: '$300,000 - $500,000' },
-  { min: 500000, max: 1000000, label: '$500,000 - $1,000,000' },
-  { min: 1000000, max: null, label: 'Over $1,000,000' }
+  { min: 0, max: 100000, label: 'Under ₹100,000' },
+  { min: 100000, max: 300000, label: '₹100,000 - ₹300,000' },
+  { min: 300000, max: 500000, label: '₹300,000 - ₹500,000' },
+  { min: 500000, max: 1000000, label: '₹500,000 - ₹1,000,000' },
+  { min: 1000000, max: 5000000, label: '₹1,000,000-5,000,000' },
+  { min: 50000000, max: null, label: 'Over ₹5,000,000' }
 ]
 
 export default function Properties() {
@@ -204,7 +205,7 @@ export default function Properties() {
                   onChange={() => handleFilterChange('category', category)}
                   className="h-4 w-4 rounded-full border-primary text-primary focus:ring-primary"
                 />
-                <span className="text-sm text-foreground">{category}</span>
+                <span className="text-sm text-foreground capitalize">{category}</span>
               </label>
             ))}
           </div>
@@ -242,7 +243,7 @@ export default function Properties() {
                   onChange={() => handleFilterChange('district', district)}
                   className="h-4 w-4 rounded-full border-primary text-primary focus:ring-primary"
                 />
-                <span className="text-sm text-foreground">{district}</span>
+                <span className="text-sm text-foreground capitalize">{district}</span>
               </label>
             ))}
           </div>

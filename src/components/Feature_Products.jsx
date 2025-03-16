@@ -2,11 +2,13 @@ import { Bath, BedDouble, Maximize } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { ALLPOST } from '../Store/Api'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 export default function FeaturedProperties() {
   const [properties, setProperties] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const navigate=useNavigate()
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -55,12 +57,12 @@ export default function FeaturedProperties() {
                     className="h-full w-full object-cover transition-transform group-hover:scale-110"
                   />
                 </div>
-                <div className="absolute right-4 top-4 rounded-full bg-primary px-3 py-1 text-sm font-semibold text-primary-foreground">
+                <div className="absolute right-4 top-4 rounded-full bg-primary px-3 py-1 text-sm font-semibold text-primary-foreground capitalize">
                   {property.type}
                 </div>
                 <div className="p-6">
                   <h3 className="mb-2 text-xl font-semibold">{property.title}</h3>
-                  <p className="mb-4 text-muted-foreground">{property.location}</p>
+                  <p className="mb-4 text-muted-foreground capitalize">{property.location}</p>
                   <div className="mb-4 flex items-center gap-4 text-muted-foreground">
                     <div className="flex items-center gap-1">
                       <BedDouble className="h-4 w-4" />
@@ -76,10 +78,10 @@ export default function FeaturedProperties() {
                     </div>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-xl font-bold">{property.price}</span>
+                    <span className="text-xl font-bold">₹{property.price}</span>
                     <button
                       className="rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-                      onClick={() => console.log(`Viewing property: ${property.id}`)}
+                      onClick={() => navigate(`/property/${property.id}`)}
                     >
                       View Details
                     </button>
