@@ -1,8 +1,6 @@
 import './App.css';
 import SnackbarComponent from './components/GlobalSnackbar';
 import Layout from './Layout/Layout';
-import Blog from './Pages/Blog';
-import Contact from './Pages/Contact';
 
 
 

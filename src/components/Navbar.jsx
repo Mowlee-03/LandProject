@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useContext } from 'react'
-import { Moon, Sun, Heart, LogOut, User, ChevronDown, Home, Building, BookOpen, Wrench } from 'lucide-react'
+import { Moon, Sun, Heart, LogOut, User, ChevronDown, Home, Building, BookOpen, Wrench, PhoneCallIcon } from 'lucide-react'
 import { useTheme } from './theme-provider'
 import AuthModal from './auth/Authmodal'
 import { UserContext } from '../Store/Provider/Userprovider'
@@ -7,7 +7,9 @@ import LogoutModal from './auth/LogoutModal'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { openAuthmodal } from '../Store/slices/authSlice'
-
+import PeopleIcon from '@mui/icons-material/People';
+import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
+import RoofingIcon from '@mui/icons-material/Roofing';
 export default function Navbar() {
   const { theme, setTheme } = useTheme()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
@@ -97,11 +99,11 @@ export default function Navbar() {
               <Link to="/properties" className="text-sm font-medium text-foreground transition-colors hover:text-primary">
                 Properties
               </Link>
-              <Link to="/blog" className="text-sm font-medium text-foreground transition-colors hover:text-primary">
-                Blog
-              </Link>
               <Link to="/services" className="text-sm font-medium text-foreground transition-colors hover:text-primary">
                 Services
+              </Link>
+              <Link to="/contact" className="text-sm font-medium text-foreground transition-colors hover:text-primary">
+                Contact
               </Link>
             </div>
           </div>
@@ -117,7 +119,14 @@ export default function Navbar() {
 
             {/* User Menu Button (Mobile & Desktop) */}
             {user ? (
-              <div className="relative" ref={dropdownRef}>
+              <div className="relative flex" ref={dropdownRef}>
+                <button
+                        onClick={favorite}
+                        className="flex w-full items-center gap-2 rounded-sm px-3 py-2 text-sm text-foreground hover:bg-muted"
+                      >
+                        <Heart  className="h-4 w-4 fill-red-500 stroke-red-500" />
+                        <span className='max-md:hidden'>Favorites</span>
+                      </button>
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   className="flex items-center gap-2 rounded-md px-3 py-2 text-foreground hover:bg-muted"
@@ -135,13 +144,7 @@ export default function Navbar() {
                         Signed in as <span className="font-medium text-foreground">{user.email}</span>
                       </div>
                       <div className="h-px bg-border" />
-                      <button
-                        onClick={favorite}
-                        className="flex w-full items-center gap-2 rounded-sm px-3 py-2 text-sm text-foreground hover:bg-muted"
-                      >
-                        <Heart className="h-4 w-4" />
-                        Favorites
-                      </button>
+                      
                       <div className="h-px bg-border" />
                       <button
                         onClick={handleLogoutClick}
@@ -173,37 +176,34 @@ export default function Navbar() {
             to="/"
             className={`flex flex-col items-center justify-center ${isActive('/')}`}
           >
-            <Home className="h-5 w-5" />
+            <RoofingIcon className="h-5 w-5" />
             <span className="text-xs mt-1">Home</span>
           </Link>
           <Link 
             to="/properties"
             className={`flex flex-col items-center justify-center ${isActive('/properties')}`}
           >
-            <Building className="h-5 w-5" />
+            <AddLocationAltIcon className="h-5 w-5" />
             <span className="text-xs mt-1">Properties</span>
           </Link>
-          <Link 
-            to="/blog"
-            className={`flex flex-col items-center justify-center ${isActive('/blog')}`}
-          >
-            <BookOpen className="h-5 w-5" />
-            <span className="text-xs mt-1">Blog</span>
-          </Link>
+         
           <Link 
             to="/services"
             className={`flex flex-col items-center justify-center ${isActive('/services')}`}
           >
-            <Wrench className="h-5 w-5" />
+            <PeopleIcon className="h-5 w-5" />
             <span className="text-xs mt-1">Services</span>
+          </Link>
+          <Link 
+            to="/contact"
+            className={`flex flex-col items-center justify-center ${isActive('/blog')}`}
+          >
+            <PhoneCallIcon className="h-5 w-5" />
+            <span className="text-xs mt-1">contact</span>
           </Link>
         </div>
       </div>
 
-      {/* Add bottom padding to content area to prevent overlap with mobile nav */}
-      <div className="pb-16 md:pb-0">
-        {/* Your main content goes here */}
-      </div>
 
       {/* Auth Modal */}
       <AuthModal 

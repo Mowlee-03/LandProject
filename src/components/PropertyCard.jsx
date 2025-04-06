@@ -75,10 +75,11 @@ export default function PropertyCard({ property, onRemoveFavorite, isInFavorites
       {!isInFavoritesPage && (
         <button
           onClick={handleFavoriteClick}
-          className="absolute right-4 top-16 rounded-full bg-background/80 p-2 backdrop-blur-sm transition-colors hover:bg-background"
+          className="absolute   right-4 top-16 rounded-full bg-background/80 p-2 backdrop-blur-sm transition-colors hover:bg-background"
         >
           <Heart
-            className={`h-5 w-5 transition-colors ${
+          size={20}
+            className={`transition-colors ${
               isFavorite ? 'fill-red-500 stroke-red-500' : 'stroke-foreground'
             }`}
           />
