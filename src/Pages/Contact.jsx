@@ -86,7 +86,7 @@ export default function Contact() {
     {
       icon: WhatsAppIcon,
       name: 'WhatsApp',
-      href: 'https://wa.me/11234567890' // Replace with your WhatsApp number
+      href: 'https://wa.me/+917530081966' // Replace with your WhatsApp number
     }
   ] 
 

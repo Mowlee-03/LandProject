@@ -16,7 +16,7 @@ export const AUTH=`${BASE_URL}/user/auth`
 
 export const ALLPOST=`${BASE_URL}/post/viewallpost`
 export const ONEPOST=(postid)=>`${BASE_URL}/post/${postid}`
-export const POSTCATEGORY=`${BASE_URL}/admin/getcategory`
+export const GETCATEGORY=`${BASE_URL}/admin/getcategory`
 export const DISTRICT_0F_POST=`${BASE_URL}/admin/getdistrict`
 export const GET_PROPERTY_COUNT=`${BASE_URL}/post/property_count`
 

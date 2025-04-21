@@ -4,15 +4,15 @@ import PropertyCard from '../components/PropertyCard'
 import { UserContext } from '../Store/Provider/Userprovider'
 import { Loader } from '../components/ui/Loader'
 import axios from 'axios'
-import { ALLPOST, DISTRICT_0F_POST, GETFAVOURITE, POSTCATEGORY } from '../Store/Api'
+import { ALLPOST, DISTRICT_0F_POST, GETFAVOURITE, GETCATEGORY } from '../Store/Api'
 
 const priceRanges = [
-  { min: 0, max: 100000, label: 'Under ₹100,000' },
-  { min: 100000, max: 300000, label: '₹100,000 - ₹300,000' },
-  { min: 300000, max: 500000, label: '₹300,000 - ₹500,000' },
-  { min: 500000, max: 1000000, label: '₹500,000 - ₹1,000,000' },
-  { min: 1000000, max: 5000000, label: '₹1,000,000-5,000,000' },
-  { min: 50000000, max: null, label: 'Over ₹5,000,000' }
+  { min: 0, max: 500000, label: 'Under ₹5,00,000' },
+  { min: 500000, max: 1000000, label: '₹5,00,000 - ₹10,00,000' },
+  { min: 1000000, max: 2000000, label: '₹10,00,000 - ₹20,00,000' },
+  { min: 2000000, max: 3000000, label: '₹20,00,000 - ₹30,00,000' },
+  { min: 4000000, max: 5000000, label: '₹40,00,000-50,00,000' },
+  { min: 5000000, max: null, label: 'Over ₹50,00,000' }
 ]
 
 export default function Properties() {
@@ -29,8 +29,8 @@ export default function Properties() {
   useEffect(() => {
     const getCategories = async () => {
       try {
-        let postCategory = await axios.get(POSTCATEGORY)
-        let dataofcategory = postCategory.data.data
+        let Category = await axios.get(GETCATEGORY)
+        let dataofcategory = Category.data.data
         const categoryNames = dataofcategory.map((data) => data.name)
         setCategories(categoryNames);
       } catch (error) {

@@ -77,7 +77,10 @@ export default function Navbar() {
   }
 
   const isActive = (path) => {
-    return location.pathname === path ? "text-primary" : "text-foreground"
+    console.log(location.pathname);
+    console.log(path);
+    
+    return location.pathname === path ? "text-green" : "text-foreground"
   }
 
   return (
@@ -99,9 +102,9 @@ export default function Navbar() {
               <Link to="/properties" className="text-sm font-medium text-foreground transition-colors hover:text-primary">
                 Properties
               </Link>
-              <Link to="/services" className="text-sm font-medium text-foreground transition-colors hover:text-primary">
+              {/* <Link to="/services" className="text-sm font-medium text-foreground transition-colors hover:text-primary">
                 Services
-              </Link>
+              </Link> */}
               <Link to="/contact" className="text-sm font-medium text-foreground transition-colors hover:text-primary">
                 Contact
               </Link>
@@ -171,7 +174,7 @@ export default function Navbar() {
 
       {/* Bottom Navigation for Mobile Only */}
       <div className="fixed bottom-0 left-0 z-50 w-full border-t border-border bg-background md:hidden">
-        <div className="grid h-16 grid-cols-4">
+        <div className="grid h-16 grid-cols-3">
           <Link 
             to="/"
             className={`flex flex-col items-center justify-center ${isActive('/')}`}
@@ -187,16 +190,16 @@ export default function Navbar() {
             <span className="text-xs mt-1">Properties</span>
           </Link>
          
-          <Link 
+          {/* <Link 
             to="/services"
             className={`flex flex-col items-center justify-center ${isActive('/services')}`}
           >
             <PeopleIcon className="h-5 w-5" />
             <span className="text-xs mt-1">Services</span>
-          </Link>
+          </Link> */}
           <Link 
             to="/contact"
-            className={`flex flex-col items-center justify-center ${isActive('/blog')}`}
+            className={`flex flex-col items-center justify-center ${isActive('/contact')}`}
           >
             <PhoneCallIcon className="h-5 w-5" />
             <span className="text-xs mt-1">contact</span>
