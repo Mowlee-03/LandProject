@@ -50,6 +50,14 @@ export default function PropertyCard({ property, onRemoveFavorite, isInFavorites
       // Optional: Show user-friendly error message
     }
   };
+
+   const formatPrice = (price, type) => {
+    if (type==='sale') {
+      return `₹${(price.toLocaleString() )}`;
+    } else {
+      return `₹${price.toLocaleString()}/month`;
+    }
+  };
  
   return (
     <motion.div
@@ -109,7 +117,7 @@ export default function PropertyCard({ property, onRemoveFavorite, isInFavorites
         </div>
         <div className="flex items-center justify-between">
           <span className="text-lg font-bold text-card-foreground">
-            ₹{property.price.toLocaleString()}
+            {formatPrice(property.price,property.type)}
           </span>
           {isInFavoritesPage ? (
             <button 

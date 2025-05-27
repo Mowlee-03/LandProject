@@ -60,7 +60,9 @@ export default function Properties() {
         setIsLoading(true)
         setError(null)
         const response = await axios.get(ALLPOST)
-        setProperties(response.data.data)
+        const sortedProperties = response.data.data
+        .filter((property) => property.isSold !== true)
+        setProperties(sortedProperties)
       } catch (err) {
         console.error('Error fetching properties:', err)
         setError('Failed to load properties. Please try again later.')

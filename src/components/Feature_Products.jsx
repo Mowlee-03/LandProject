@@ -16,9 +16,11 @@ export default function FeaturedProperties() {
         const response = await axios.get(ALLPOST)
 
         // Sorting by createdAt (latest first) and taking only top 3 properties
-        const sortedProperties = response.data.data
-          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-          .slice(0, 3)
+      const sortedProperties = response.data.data
+        .filter((property) => property.isSold !== true) // Only include not sold
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        .slice(0, 3)
+
 
         setProperties(sortedProperties)
       } catch (err) {
@@ -29,6 +31,14 @@ export default function FeaturedProperties() {
     }
     fetchProperties()
   }, [])
+
+     const formatPrice = (price, type) => {
+    if (type==='sale') {
+      return `₹${(price.toLocaleString() )}`;
+    } else {
+      return `₹${price.toLocaleString()}/month`;
+    }
+  };
 
   return (
     <section className="py-16">
@@ -78,7 +88,7 @@ export default function FeaturedProperties() {
                     </div>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-xl font-bold">₹{property.price}</span>
+                    <span className="text-xl font-bold">{formatPrice(property.price,property.type)}</span>
                     <button
                       className="rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
                       onClick={() => navigate(`/property/${property.id}`)}
