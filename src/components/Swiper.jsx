@@ -14,7 +14,7 @@ const ServicesSwiper = () => {
       title: "Property Management",
       tagline: "Comprehensive management solutions for property owners",
       description: "We handle every aspect of property management so you don't have to, from tenant screening to maintenance.",
-      features: ["24/7 maintenance support", "Tenant screening", "Rent collection", "Property inspections"],
+      // features: ["24/7 maintenance support", "Tenant screening", "Rent collection", "Property inspections"],
       image: "https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg"
     },
     {
@@ -22,7 +22,7 @@ const ServicesSwiper = () => {
       title: "Buying Assistance",
       tagline: "Find your dream home with expert guidance",
       description: "Our buying specialists help you navigate the market to find and secure the perfect property for your needs.",
-      features: ["Property search", "Negotiation support", "Financing assistance", "Closing coordination"],
+      // features: ["Property search", "Negotiation support", "Financing assistance", "Closing coordination"],
       image: "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg"
     },
     {
@@ -30,7 +30,7 @@ const ServicesSwiper = () => {
       title: "Selling Services",
       tagline: "Maximize your property's value and sale speed",
       description: "Our proven marketing strategies and network of buyers help you sell your property quickly and at the best price.",
-      features: ["Professional photography", "Virtual tours", "Targeted marketing", "Negotiation expertise"],
+      // features: ["Professional photography", "Virtual tours", "Targeted marketing", "Negotiation expertise"],
       image: "https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg"
     },
     {
@@ -38,7 +38,7 @@ const ServicesSwiper = () => {
       title: "Investment Consulting",
       tagline: "Turn properties into profitable investments",
       description: "Our experts analyze market trends and opportunities to help you make informed real estate investment decisions.",
-      features: ["Market analysis", "ROI calculations", "Portfolio diversification", "Risk assessment"],
+      // features: ["Market analysis", "ROI calculations", "Portfolio diversification", "Risk assessment"],
       image: "https://images.pexels.com/photos/1029599/pexels-photo-1029599.jpeg"
     }
   ];
@@ -74,7 +74,7 @@ const ServicesSwiper = () => {
                     <p className="text-sm sm:text-base md:text-lg text-blue-300 mb-2 sm:mb-4 font-medium">{service.tagline}</p>
                     
                     <p className="text-xs sm:text-sm md:text-base mb-4 hidden sm:block">{service.description}</p>
-                    
+{/*                     
                     <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 mb-6">
                       {service.features.map((feature, index) => (
                         <li key={index} className="flex items-center text-xs sm:text-sm text-gray-200">
@@ -84,7 +84,7 @@ const ServicesSwiper = () => {
                           {feature}
                         </li>
                       ))}
-                    </ul>
+                    </ul> */}
                     
                     <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
                       {/* <Link to='/services' className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 sm:px-6 rounded-lg transition-colors text-sm sm:text-base">
