@@ -10,6 +10,8 @@ import { openAuthmodal } from '../Store/slices/authSlice'
 import PeopleIcon from '@mui/icons-material/People';
 import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 import RoofingIcon from '@mui/icons-material/Roofing';
+import Logo from './Logocomponent'
+
 export default function Navbar() {
   const { theme, setTheme } = useTheme()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
@@ -90,8 +92,8 @@ export default function Navbar() {
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
           <div className="flex items-center gap-4">
             {/* Brand Logo */}
-            <a href="/" className="flex items-center space-x-2">
-              <span className="text-xl md:text-2xl font-bold text-foreground">RealEstate</span>
+            <a href="/" className="flex items-center space-x-2 overflow-hidden">
+              <Logo/>
             </a>
 
             {/* Desktop Navigation Links */}

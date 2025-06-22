@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Phone, Mail, Send, Instagram, MessageCircle } from 'lucide-react'
+import { Phone, Mail, Send, Instagram, MessageCircle,PhoneCallIcon } from 'lucide-react'
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 export default function Contact() {
   const [formState, setFormState] = useState({
@@ -63,25 +63,23 @@ export default function Contact() {
       icon: Phone,
       title: 'Phone',
       details: [
-        { text: '+1 (123) 456-7890', href: 'tel:+11234567890' },
-        { text: '+1 (123) 456-7891', href: 'tel:+11234567891' }
+        { text: '+91 7530081966', href: 'tel:+917530081966' },
       ],
     },
     {
       icon: Mail,
       title: 'Email',
       details: [
-        { text: 'info@realestate.com', href: 'mailto:info@realestate.com' },
-        { text: 'support@realestate.com', href: 'mailto:support@realestate.com' }
+        { text: 'sundaramagency1@gmail.com', href: 'mailto:sundaramagency1@gmail.com' },
       ],
     },
   ]
 
   const socialPlatforms = [
     {
-      icon: Instagram,
+      icon: PhoneCallIcon,
       name: 'Instagram',
-      href: 'https://instagram.com/yourusername'
+      href: 'tel:+917530081966'
     },
     {
       icon: WhatsAppIcon,
@@ -144,7 +142,7 @@ export default function Contact() {
             </div>
 
             <div>
-              <h3 className="mb-4 font-semibold text-card-foreground">Follow Us</h3>
+              <h3 className="mb-4 font-semibold text-card-foreground">Contact in</h3>
               <div className="flex gap-4">
                 {socialPlatforms.map((platform) => {
                   const Icon = platform.icon
